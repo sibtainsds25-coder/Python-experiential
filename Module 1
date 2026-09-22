@@ -1,0 +1,51 @@
+class Node:
+    def __init__(self, coefficient, exponent):
+        self.coefficient = coefficient
+        self.exponent = exponent
+        self.next = None
+
+
+# Function to create a new node
+def createNode(coef, exp):
+    return Node(coef, exp)
+
+
+# Function to free the linked list
+# Python automatically manages memory using garbage collection.
+def freeList(head):
+    current = head
+
+    while current is not None:
+        next_node = current.next
+        current.next = None
+        current = next_node
+
+
+# Main program
+if __name__ == "__main__":
+
+    # Create polynomial nodes
+    head = createNode(5, 3)
+    head.next = createNode(4, 2)
+    head.next.next = createNode(7, 0)
+
+    # Display polynomial
+    temp = head
+
+    print("Polynomial:", end=" ")
+
+    while temp is not None:
+        print(f"{temp.coefficient}x^{temp.exponent}", end="")
+
+        if temp.next is not None:
+            print(" + ", end="")
+
+        temp = temp.next
+
+    print()
+
+    # Clean up the linked list
+    freeList(head)
+    head = None
+
+    print("Memory cleanup completed.")
