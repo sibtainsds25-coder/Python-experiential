@@ -1,24 +1,28 @@
-class Node:   
-def __init__(self, c, p): self.c = c 
-self.p = p self.next = None
-def add_term(head, c, p):     new = Node(c, p) 
-if head is None:         return new     cur = head     while cur.next:         
-cur = cur.next     cur.next = new     return head
-def add_poly(a, b):     result = None     while a and b:        
-if a.p == b.p:
-   result = add_term(result, a.c + b.c, a.p)             a, b = a.next, b.next       
-elif a.p > b.p:result = add_term(result, a.c, a.p) a = a.next    
-else:
-     result = add_term(result, b.c, b.p) b = b.next     
-while a:
-        result = add_term(result, a.c, a.p) a = a.next 
-while b:
-        result = add_term(result, b.c, b.p) b = b.next
-return result
-def show(head):     parts = []     while head: 
-parts.append(str(head.c) + "x^" + str(head.
-p)) head = head.next    
-print(" + ".join(parts))
-# Terms must be entered in decreasing power a = None a = add_term(a, 3, 2) a = add_term(a, 2, 1) a = add_term(a, 1, 0)
-b = None b = add_term(b, 4, 2) b = add_term(b, 5, 0)
-print("Polynomial A:") show(a) print("Polynomial B:") show(b) print("Sum:") show(add_poly(a, b))
+class Node:
+    def __init__(self, c, p):
+        self.c = c
+        self.p = p
+        self.next = None
+
+def add_poly(a, b):
+    result = []
+    while a and b:
+        if a.p == b.p:
+            result.append((a.c + b.c, a.p))
+            a, b = a.next, b.next
+        elif a.p > b.p:
+            result.append((a.c, a.p))
+            a = a.next
+        else:
+            result.append((b.c, b.p))
+            b = b.next
+    return result
+
+a = Node(3, 2)
+a.next = Node(2, 1)
+a.next.next = Node(1, 0)
+
+b = Node(4, 2)
+b.next = Node(5, 0)
+
+print("Sum:", add_poly(a, b))
