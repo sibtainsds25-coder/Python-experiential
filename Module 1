@@ -1,51 +1,24 @@
-class Node:
-    def __init__(self, coefficient, exponent):
-        self.coefficient = coefficient
-        self.exponent = exponent
-        self.next = None
-
-
-# Function to create a new node
-def createNode(coef, exp):
-    return Node(coef, exp)
-
-
-# Function to free the linked list
-# Python automatically manages memory using garbage collection.
-def freeList(head):
-    current = head
-
-    while current is not None:
-        next_node = current.next
-        current.next = None
-        current = next_node
-
-
-# Main program
-if __name__ == "__main__":
-
-    # Create polynomial nodes
-    head = createNode(5, 3)
-    head.next = createNode(4, 2)
-    head.next.next = createNode(7, 0)
-
-    # Display polynomial
-    temp = head
-
-    print("Polynomial:", end=" ")
-
-    while temp is not None:
-        print(f"{temp.coefficient}x^{temp.exponent}", end="")
-
-        if temp.next is not None:
-            print(" + ", end="")
-
-        temp = temp.next
-
-    print()
-
-    # Clean up the linked list
-    freeList(head)
-    head = None
-
-    print("Memory cleanup completed.")
+class Node:   
+def __init__(self, c, p): self.c = c 
+self.p = p self.next = None
+def add_term(head, c, p):     new = Node(c, p) 
+if head is None:         return new     cur = head     while cur.next:         
+cur = cur.next     cur.next = new     return head
+def add_poly(a, b):     result = None     while a and b:        
+if a.p == b.p:
+   result = add_term(result, a.c + b.c, a.p)             a, b = a.next, b.next       
+elif a.p > b.p:result = add_term(result, a.c, a.p) a = a.next    
+else:
+     result = add_term(result, b.c, b.p) b = b.next     
+while a:
+        result = add_term(result, a.c, a.p) a = a.next 
+while b:
+        result = add_term(result, b.c, b.p) b = b.next
+return result
+def show(head):     parts = []     while head: 
+parts.append(str(head.c) + "x^" + str(head.
+p)) head = head.next    
+print(" + ".join(parts))
+# Terms must be entered in decreasing power a = None a = add_term(a, 3, 2) a = add_term(a, 2, 1) a = add_term(a, 1, 0)
+b = None b = add_term(b, 4, 2) b = add_term(b, 5, 0)
+print("Polynomial A:") show(a) print("Polynomial B:") show(b) print("Sum:") show(add_poly(a, b))
